@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Admin Portal</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+    <%= render "shared/admin_styles" %>
+    <%= javascript_importmap_tags %>
+  </head>
+  <body>
+    <div class="shell">
+      <aside class="sidebar">
+        <div class="brand">⚙️ Admin Portal</div>
+        <nav class="nav">
+          <%= link_to "Dashboard", admin_root_path,                class: ("active" if controller_name == "dashboard") %>
+          <%= link_to "Users",      users_path,               class: ("active" if controller_name == "users") %>
+          <%= link_to "Products",   products_path,            class: ("active" if controller_name == "products") %>
+          <%= link_to "Site setup", edit_site_setting_path,   class: ("active" if controller_name == "site_settings") %>
+        <%= link_to "View site ↗", root_path, target: "_blank", rel: "noopener" %>
+        </nav>
+        <div class="who">
+          Signed in as<br><strong><%= current_admin.name %></strong>
+          <%= button_to "Log out", destroy_admin_session_path, method: :delete, class: "btn secondary small", form: { style: "margin-top:.8rem" } %>
+        </div>
+      </aside>
+
+      <main class="content">
+        <% if notice %><div class="flash notice"><%= notice %></div><% end %>
+        <% if alert %><div class="flash alert"><%= alert %></div><% end %>
+        <%= yield %>
+      </main>
+    </div>
+  </body>
+</html>

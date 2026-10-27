@@ -1,0 +1,27 @@
+<div class="page-head">
+  <div>
+    <h1>Welcome, <%= current_admin.name %> 👋</h1>
+    <p class="muted">Manage your users, products and site from here.</p>
+  </div>
+</div>
+
+<div class="stats">
+  <div class="panel stat"><div class="num"><%= @users_count %></div><div class="label">Users</div></div>
+  <div class="panel stat"><div class="num"><%= @products_count %></div><div class="label">Products</div></div>
+  <div class="panel stat"><div class="num"><%= @low_stock_count %></div><div class="label">Low stock (5 or fewer)</div></div>
+  <div class="panel stat">
+    <div class="num" style="font-size:1.3rem;margin-top:.5rem">
+      <% if @site.maintenance_mode %><span class="badge warn">Maintenance</span><% else %><span class="badge on">Live</span><% end %>
+    </div>
+    <div class="label" style="margin-top:.4rem">Site status: <%= @site.site_name %></div>
+  </div>
+</div>
+
+<div class="panel">
+  <h3 style="margin-bottom:.8rem">Quick actions</h3>
+  <div class="actions">
+    <%= link_to "+ Add user", new_user_path, class: "btn" %>
+    <%= link_to "+ Add product", new_product_path, class: "btn" %>
+    <%= link_to "Edit site setup", edit_site_setting_path, class: "btn secondary" %>
+  </div>
+</div>

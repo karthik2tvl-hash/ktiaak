@@ -1,0 +1,39 @@
+<div class="page-head">
+  <h1>Products</h1>
+  <%= link_to "+ Add product", new_product_path, class: "btn" %>
+</div>
+
+<%= form_with url: products_path, method: :get, class: "search" do %>
+  <%= search_field_tag :q, @q, placeholder: "Search by name, SKU or category" %>
+  <%= submit_tag "Search", class: "btn secondary", name: nil %>
+  <% if @q.present? %><%= link_to "Clear", products_path, class: "btn secondary" %><% end %>
+<% end %>
+
+<div class="table-wrap">
+  <% if @products.any? %>
+    <table>
+      <thead><tr><th>Name</th><th>SKU</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        <% @products.each do |product| %>
+          <tr>
+            <td><%= product.name %></td>
+            <td><%= product.sku %></td>
+            <td><%= product.category.presence || "—" %></td>
+            <td><%= number_to_currency(product.price, unit: "₹") %></td>
+            <td>
+              <% if product.stock <= 5 %><span class="badge warn"><%= product.stock %></span><% else %><%= product.stock %><% end %>
+            </td>
+            <td><span class="badge <%= product.active ? 'on' : 'off' %>"><%= product.active ? "Active" : "Hidden" %></span></td>
+            <td class="row-actions">
+              <%= link_to "Edit", edit_product_path(product), class: "btn secondary small" %>
+              <%= button_to "Delete", product_path(product), method: :delete, class: "btn danger small",
+                    form: { data: { turbo_confirm: "Delete #{product.name}?" } } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="empty">No products found. <%= link_to "Add the first product", new_product_path %>.</div>
+  <% end %>
+</div>

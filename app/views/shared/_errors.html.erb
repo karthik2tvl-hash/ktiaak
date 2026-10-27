@@ -1,0 +1,10 @@
+<% record = local_assigns[:record] || local_assigns[:resource] %>
+<% if record.errors.any? %>
+  <div class="errors">
+    <ul>
+      <% record.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

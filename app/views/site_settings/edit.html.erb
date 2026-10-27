@@ -1,0 +1,55 @@
+<div class="page-head">
+  <div>
+    <h1>Site setup</h1>
+    <p class="muted">These details describe your website. Changes apply to the whole site.</p>
+  </div>
+</div>
+
+<div class="panel">
+  <%= form_with model: @site_setting, url: site_setting_path do |f| %>
+    <%= render "shared/errors", record: @site_setting %>
+
+    <div class="form-grid two">
+      <div>
+        <%= f.label :site_name, "Site name" %>
+        <%= f.text_field :site_name, required: true %>
+      </div>
+      <div>
+        <%= f.label :tagline %>
+        <%= f.text_field :tagline %>
+      </div>
+      <div>
+        <%= f.label :contact_email, "Contact email" %>
+        <%= f.email_field :contact_email %>
+      </div>
+      <div>
+        <%= f.label :contact_phone, "Contact phone" %>
+        <%= f.telephone_field :contact_phone %>
+      </div>
+      <div class="span-2">
+        <%= f.label :address %>
+        <%= f.text_area :address, rows: 3 %>
+      </div>
+      <div>
+        <%= f.label :logo_url, "Logo URL" %>
+        <%= f.url_field :logo_url, placeholder: "https://..." %>
+      </div>
+      <div>
+        <%= f.label :primary_color, "Brand colour" %>
+        <%= f.color_field :primary_color %>
+      </div>
+      <div class="span-2">
+        <%= f.label :footer_text, "Footer text" %>
+        <%= f.text_field :footer_text %>
+      </div>
+      <div class="check span-2">
+        <%= f.check_box :maintenance_mode %>
+        <%= f.label :maintenance_mode, "Maintenance mode (show a “we’ll be back soon” notice to visitors)" %>
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <%= f.submit "Save site setup", class: "btn" %>
+    </div>
+  <% end %>
+</div>

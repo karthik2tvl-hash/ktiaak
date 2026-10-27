@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title><%= @site.site_name %> | AI &amp; Cloud Training</title>
+<meta name="description" content="Hands-on AI and Cloud workshops and mentorship for college students and engineers.">
+<style>
+  :root {
+    --bg: #0b1020;
+    --ink: #e8ecf8;
+    --muted: #9aa6c7;
+    --primary: <%= @site.primary_color %>;
+    --accent: #22d3ee;
+    --light: #eef2ff;
+    --dark-text: #1b2140;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  .container { width: min(1100px, 100% - 2rem); margin-inline: auto; }
+
+  /* ---------- Scroll reveal ---------- */
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s ease, transform .8s ease; }
+  .reveal.from-left { transform: translateX(-60px); }
+  .reveal.from-right { transform: translateX(60px); }
+  .reveal.show { opacity: 1; transform: none; }
+
+  /* ---------- Section 1: Hero ---------- */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    text-align: center;
+    padding: 5rem 0;
+    background:
+      radial-gradient(circle at 20% 20%, rgba(108,123,255,.35), transparent 45%),
+      radial-gradient(circle at 80% 70%, rgba(34,211,238,.25), transparent 45%),
+      var(--bg);
+    overflow: hidden;
+  }
+  .hero .blob {
+    position: absolute; border-radius: 50%; filter: blur(70px); opacity: .5;
+    animation: float 9s ease-in-out infinite;
+  }
+  .hero .b1 { width: 260px; height: 260px; background: var(--primary); top: 8%; left: -60px; }
+  .hero .b2 { width: 220px; height: 220px; background: var(--accent); bottom: 8%; right: -50px; animation-delay: -4s; }
+  @keyframes float { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-30px); } }
+
+  .badge {
+    display: inline-block; padding: .35rem .9rem; border-radius: 999px;
+    border: 1px solid rgba(255,255,255,.2); color: var(--accent);
+    font-size: .85rem; letter-spacing: .04em; margin-bottom: 1.2rem;
+    background: rgba(255,255,255,.04);
+  }
+  .hero h1 {
+    font-size: clamp(2.2rem, 7vw, 4.5rem);
+    line-height: 1.1; font-weight: 800; letter-spacing: -.02em;
+  }
+  .gradient-text {
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .hero p {
+    max-width: 640px; margin: 1.4rem auto 2rem;
+    color: var(--muted); font-size: clamp(1rem, 2.4vw, 1.2rem);
+  }
+  .btn {
+    display: inline-block; text-decoration: none; cursor: pointer; border: 0;
+    padding: .9rem 1.8rem; border-radius: 999px; font-weight: 700; font-size: 1rem;
+    color: #fff; background: linear-gradient(90deg, var(--primary), #8b5cf6);
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(108,123,255,.45); }
+  .btn.ghost { background: transparent; border: 1px solid rgba(255,255,255,.3); margin-left: .5rem; }
+  .scroll-hint { position: absolute; bottom: 1.5rem; left: 50%; translate: -50% 0; color: var(--muted); font-size: .85rem; animation: bounce 2s infinite; }
+  @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
+
+  /* ---------- Section 2: Workshops ---------- */
+  .workshops { padding: 5rem 0; background: var(--bg); }
+  .section-title { text-align: center; margin-bottom: 3rem; }
+  .section-title h2 { font-size: clamp(1.8rem, 5vw, 2.6rem); }
+  .section-title p { color: var(--muted); }
+  .course {
+    display: grid; grid-template-columns: 1fr; gap: 1.5rem; align-items: center;
+    margin-bottom: 3rem; padding: 1.2rem; border-radius: 20px;
+    background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08);
+    transition: transform .3s ease, border-color .3s ease;
+  }
+  .course:hover { transform: translateY(-6px); border-color: rgba(108,123,255,.6); }
+  .course-img { border-radius: 14px; overflow: hidden; line-height: 0; }
+  .course-img svg { width: 100%; height: auto; transition: transform .6s ease; }
+  .course:hover .course-img svg { transform: scale(1.06); }
+  .tag { color: var(--accent); font-size: .8rem; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; }
+  .course h3 { font-size: 1.5rem; margin: .3rem 0 .6rem; }
+  .course p { color: var(--muted); }
+  .course ul { margin-top: .8rem; padding-left: 1.1rem; color: var(--muted); font-size: .95rem; }
+
+  /* ---------- Section 3: LMS banner ---------- */
+  .lms { background: var(--light); color: var(--dark-text); text-align: center; padding: 5rem 0; }
+  .lms h2 { font-size: clamp(1.5rem, 4.5vw, 2.3rem); max-width: 760px; margin: 0 auto 2rem; line-height: 1.25; }
+  .lms .btn { font-size: 1.1rem; padding: 1rem 2.4rem; animation: pulse 1.8s infinite, wiggle 4s infinite; }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(108,123,255,.6); }
+    70% { box-shadow: 0 0 0 22px rgba(108,123,255,0); }
+    100% { box-shadow: 0 0 0 0 rgba(108,123,255,0); }
+  }
+  @keyframes wiggle {
+    0%, 85%, 100% { transform: scale(1) rotate(0); }
+    88% { transform: scale(1.08) rotate(-2deg); }
+    92% { transform: scale(1.08) rotate(2deg); }
+    96% { transform: scale(1.08) rotate(0); }
+  }
+
+  /* ---------- Section 4: Footer ---------- */
+  footer { background: #1a1033; padding: 4rem 0 2rem; }
+  .footer-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; }
+  footer h4 { margin-bottom: .8rem; color: var(--accent); }
+  footer p { color: var(--muted); }
+  .photo { width: 220px; height: 220px; margin-inline: auto; border-radius: 50%; overflow: hidden; border: 4px solid var(--primary); box-shadow: 0 0 40px rgba(108,123,255,.5); }
+  .photo img, .photo svg { width: 100%; height: 100%; object-fit: cover; display: block; }
+  footer ul { list-style: none; }
+  footer li { margin-bottom: .6rem; }
+  footer a { color: var(--ink); text-decoration: none; border-bottom: 1px dashed rgba(255,255,255,.3); transition: color .2s, padding-left .2s; }
+  footer a:hover { color: var(--accent); padding-left: 6px; }
+  .copy { text-align: center; margin-top: 3rem; color: var(--muted); font-size: .85rem; }
+
+  /* ---------- Larger screens ---------- */
+  @media (min-width: 800px) {
+    .course { grid-template-columns: 1fr 1.1fr; gap: 2.5rem; padding: 1.5rem; }
+    .footer-grid { grid-template-columns: repeat(3, 1fr); }
+    footer .col { text-align: left; }
+  }
+  @media (max-width: 799px) {
+    footer .col { text-align: center; }
+    .btn.ghost { margin: .8rem 0 0; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- SECTION 1: HERO -->
+<header class="hero">
+  <div class="blob b1"></div>
+  <div class="blob b2"></div>
+  <div class="container">
+    <span class="badge reveal">AI &amp; Cloud Mentorship Program</span>
+    <h1 class="reveal">Learn AI by <span class="gradient-text">building your own apps</span>, step by step</h1>
+    <p class="reveal">Hands-on workshops and one-to-one mentorship for college students and working engineers. Skip the theory overload: ship real Generative AI, Agentic and Cloud projects, and finish with a portfolio you can show off.</p>
+    <div class="reveal">
+      <a href="#workshops" class="btn">Explore workshops</a>
+      <a href="#lms" class="btn ghost">Visit the LMS</a>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll ↓</div>
+</header>
+
+<!-- SECTION 2: WORKSHOPS -->
+<section class="workshops" id="workshops">
+  <div class="container">
+    <div class="section-title reveal">
+      <h2>Our <span class="gradient-text">Workshops</span></h2>
+      <p>Practical, project-based, and built for beginners to intermediate engineers.</p>
+    </div>
+
+    <article class="course reveal from-left">
+      <div class="course-img">
+        <svg viewBox="0 0 400 240" role="img" aria-label="Generative AI app illustration">
+          <defs><linearGradient id="g1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#6c7bff"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+          <rect width="400" height="240" fill="url(#g1)"/>
+          <rect x="60" y="40" width="280" height="160" rx="14" fill="#0b1020" opacity=".85"/>
+          <circle cx="85" cy="62" r="5" fill="#ff5f57"/><circle cx="103" cy="62" r="5" fill="#febc2e"/><circle cx="121" cy="62" r="5" fill="#28c840"/>
+          <rect x="80" y="90" width="150" height="14" rx="7" fill="#22d3ee"/>
+          <rect x="80" y="115" width="220" height="10" rx="5" fill="#6c7bff"/>
+          <rect x="80" y="135" width="180" height="10" rx="5" fill="#6c7bff" opacity=".6"/>
+          <rect x="80" y="160" width="100" height="22" rx="11" fill="#8b5cf6"/>
+          <text x="330" y="190" font-size="40" fill="#22d3ee">✨</text>
+        </svg>
+      </div>
+      <div>
+        <span class="tag">Workshop 01 · Beginner</span>
+        <h3>Build your first Gen AI App</h3>
+        <p>Go from zero to a working Generative AI application. Learn prompt design, call a large language model through an API, and wrap it in a clean web interface you can deploy and share.</p>
+        <ul><li>Prompting and model APIs</li><li>Simple front end and back end</li><li>Deploying your app</li></ul>
+      </div>
+    </article>
+
+    <article class="course reveal from-left">
+      <div class="course-img">
+        <svg viewBox="0 0 400 240" role="img" aria-label="Cloud automation illustration">
+          <defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0ea5e9"/><stop offset="1" stop-color="#22d3ee"/></linearGradient></defs>
+          <rect width="400" height="240" fill="url(#g2)"/>
+          <path d="M120 150a40 40 0 0 1 8-79 55 55 0 0 1 104-8 45 45 0 0 1 38 87z" fill="#fff" opacity=".92"/>
+          <g stroke="#0b1020" stroke-width="3" fill="#0b1020">
+            <circle cx="100" cy="195" r="10"/><circle cx="200" cy="205" r="10"/><circle cx="300" cy="195" r="10"/>
+            <line x1="200" y1="150" x2="100" y2="190"/><line x1="200" y1="150" x2="200" y2="200"/><line x1="200" y1="150" x2="300" y2="190"/>
+          </g>
+          <circle cx="200" cy="120" r="16" fill="#6c7bff"/>
+        </svg>
+      </div>
+      <div>
+        <span class="tag">Workshop 02 · Intermediate</span>
+        <h3>Agentic AWS Resource Management</h3>
+        <p>Build an AI agent that understands plain-English instructions and manages cloud resources for you. Create, inspect and clean up AWS infrastructure safely, with guardrails and cost awareness built in.</p>
+        <ul><li>Agents and tool calling</li><li>Working with AWS SDK</li><li>Permissions and safety guardrails</li></ul>
+      </div>
+    </article>
+
+    <article class="course reveal from-left">
+      <div class="course-img">
+        <svg viewBox="0 0 400 240" role="img" aria-label="RAG chatbot illustration">
+          <defs><linearGradient id="g3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f472b6"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs>
+          <rect width="400" height="240" fill="url(#g3)"/>
+          <rect x="50" y="50" width="90" height="120" rx="10" fill="#fff" opacity=".9"/>
+          <rect x="62" y="68" width="66" height="8" rx="4" fill="#8b5cf6"/><rect x="62" y="88" width="50" height="8" rx="4" fill="#c4b5fd"/><rect x="62" y="108" width="60" height="8" rx="4" fill="#c4b5fd"/>
+          <path d="M150 110h60" stroke="#fff" stroke-width="4" stroke-dasharray="6 6"/>
+          <rect x="220" y="55" width="140" height="40" rx="18" fill="#0b1020" opacity=".85"/>
+          <rect x="240" y="110" width="120" height="40" rx="18" fill="#fff" opacity=".95"/>
+          <circle cx="240" cy="75" r="6" fill="#22d3ee"/><circle cx="260" cy="75" r="6" fill="#22d3ee" opacity=".6"/><circle cx="280" cy="75" r="6" fill="#22d3ee" opacity=".3"/>
+        </svg>
+      </div>
+      <div>
+        <span class="tag">Workshop 03 · Intermediate</span>
+        <h3>Build a RAG Chatbot</h3>
+        <p>Teach a chatbot to answer from your own documents. Learn embeddings, vector search and retrieval-augmented generation, then ship a chatbot that gives grounded answers instead of guesses.</p>
+        <ul><li>Embeddings and vector stores</li><li>Chunking and retrieval</li><li>Reducing hallucinations</li></ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<!-- SECTION 3: LMS BANNER -->
+<section class="lms" id="lms">
+  <div class="container">
+    <h2 class="reveal">All our courses are backed by an intuitive Learning Management System where you can learn at your own pace and take graded quizzes.</h2>
+    <div class="reveal">
+      <!-- Replace # with your real LMS URL -->
+      <a href="#" class="btn" id="lmsBtn">Take me to LMS →</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 4: FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="col reveal">
+        <!-- Replace the SVG below with: <img src="your-photo.jpg" alt="Trainer photo"> -->
+        <div class="photo">
+          <svg viewBox="0 0 200 200" role="img" aria-label="Trainer photo placeholder">
+            <rect width="200" height="200" fill="#2a1f4d"/>
+            <circle cx="100" cy="78" r="34" fill="#c4b5fd"/>
+            <path d="M30 200c0-50 30-72 70-72s70 22 70 72z" fill="#6c7bff"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="col reveal">
+        <h4>Meet your trainer</h4>
+        <p><strong style="color:var(--ink)">Your Name</strong><br>
+        Cloud &amp; AI Engineer, Mentor.<br><br>
+        Over X years of experience building cloud-native and AI systems. I help students and engineers turn curiosity into shipped projects through practical, no-fluff teaching.</p>
+      </div>
+
+      <div class="col reveal">
+        <h4>Portfolio projects</h4>
+        <ul>
+          <li><a href="#" target="_blank" rel="noopener">Gen AI Study Assistant</a></li>
+          <li><a href="#" target="_blank" rel="noopener">AWS Cost-Saver Agent</a></li>
+          <li><a href="#" target="_blank" rel="noopener">Docs Q&amp;A RAG Chatbot</a></li>
+          <li><a href="#" target="_blank" rel="noopener">GitHub Profile</a></li>
+          <li><a href="#" target="_blank" rel="noopener">LinkedIn</a></li>
+        </ul>
+      </div>
+    </div>
+    <p class="copy">© <span id="year"></span> <%= @site.site_name %>. <%= @site.footer_text.presence || "All rights reserved." %> · <%= link_to "Admin login", new_admin_session_path %></p>
+  </div>
+</footer>
+
+<script>
+  // Reveal elements as they scroll into view
+  const items = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        entry.target.style.transitionDelay = (i % 3) * 120 + 'ms';
+        entry.target.classList.add('show');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+  items.forEach(el => io.observe(el));
+
+  // Alternate slide direction for course cards
+  document.querySelectorAll('.course').forEach((c, i) => {
+    if (i % 2 === 1) { c.classList.remove('from-left'); c.classList.add('from-right'); }
+  });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>

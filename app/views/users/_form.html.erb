@@ -1,0 +1,44 @@
+<%= form_with model: user do |f| %>
+  <%= render "shared/errors", record: user %>
+
+  <div class="form-grid two">
+    <div>
+      <%= f.label :name, "Full name" %>
+      <%= f.text_field :name, required: true, autofocus: true %>
+    </div>
+    <div>
+      <%= f.label :email %>
+      <%= f.email_field :email, required: true %>
+    </div>
+    <div>
+      <%= f.label :phone %>
+      <%= f.telephone_field :phone %>
+    </div>
+    <div>
+      <%= f.label :role %>
+      <%= f.select :role, User::ROLES.map { |r| [r.titleize, r] } %>
+    </div>
+    <div>
+      <%= f.label :password, user.new_record? ? "Password" : "New password" %>
+      <%= f.password_field :password, autocomplete: "new-password",
+            required: user.new_record?, minlength: 8 %>
+      <div class="hint">
+        <% if user.new_record? %>At least 8 characters.<% else %>Leave blank to keep the current password.<% end %>
+      </div>
+    </div>
+    <div>
+      <%= f.label :password_confirmation, "Confirm password" %>
+      <%= f.password_field :password_confirmation, autocomplete: "new-password",
+            required: user.new_record? %>
+    </div>
+    <div class="check span-2">
+      <%= f.check_box :active %>
+      <%= f.label :active, "Active (can use the site)" %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.submit class: "btn" %>
+    <%= link_to "Cancel", users_path, class: "btn secondary" %>
+  </div>
+<% end %>

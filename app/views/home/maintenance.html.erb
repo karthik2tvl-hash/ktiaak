@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title><%= @site.site_name %> | Back soon</title>
+  <style>
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; text-align: center; padding: 1rem;
+           font-family: system-ui, sans-serif; color: #e8ecf8;
+           background: linear-gradient(135deg, #0b1020, #1a1033 60%, #24135a); }
+    h1 { font-size: clamp(1.8rem, 6vw, 3rem); margin-bottom: .5rem; }
+    p { color: #9aa6c7; }
+    a { color: #22d3ee; }
+  </style>
+</head>
+<body>
+  <div>
+    <h1>We’ll be back soon 🛠️</h1>
+    <p><%= @site.site_name %> is undergoing scheduled maintenance.</p>
+    <% if @site.contact_email.present? %>
+      <p>Questions? <a href="mailto:<%= @site.contact_email %>"><%= @site.contact_email %></a></p>
+    <% end %>
+  </div>
+</body>
+</html>

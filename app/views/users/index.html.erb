@@ -1,0 +1,36 @@
+<div class="page-head">
+  <h1>Users</h1>
+  <%= link_to "+ Add user", new_user_path, class: "btn" %>
+</div>
+
+<%= form_with url: users_path, method: :get, class: "search" do %>
+  <%= search_field_tag :q, @q, placeholder: "Search by name or email" %>
+  <%= submit_tag "Search", class: "btn secondary", name: nil %>
+  <% if @q.present? %><%= link_to "Clear", users_path, class: "btn secondary" %><% end %>
+<% end %>
+
+<div class="table-wrap">
+  <% if @users.any? %>
+    <table>
+      <thead><tr><th>Name</th><th>Email</th><th>Phone</th><th>Role</th><th>Status</th><th></th></tr></thead>
+      <tbody>
+        <% @users.each do |user| %>
+          <tr>
+            <td><%= user.name %></td>
+            <td><%= user.email %></td>
+            <td><%= user.phone.presence || "—" %></td>
+            <td><%= user.role.titleize %></td>
+            <td><span class="badge <%= user.active ? 'on' : 'off' %>"><%= user.active ? "Active" : "Inactive" %></span></td>
+            <td class="row-actions">
+              <%= link_to "Edit", edit_user_path(user), class: "btn secondary small" %>
+              <%= button_to "Delete", user_path(user), method: :delete, class: "btn danger small",
+                    form: { data: { turbo_confirm: "Delete #{user.name}?" } } %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <div class="empty">No users found. <%= link_to "Add the first user", new_user_path %>.</div>
+  <% end %>
+</div>
